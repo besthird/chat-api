@@ -45,7 +45,8 @@
         "hyperf/pool": "1.1.*",
         "hyperf/process": "1.1.*",
         "hyperf/redis": "1.1.*",
-        "hyperf/utils": "1.1.*"
+        "hyperf/utils": "1.1.*",
+        "hyperf/websocket-server": "1.1.*"
     },
     "require-dev": {
         "swoft/swoole-ide-helper": "^4.2",

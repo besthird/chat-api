@@ -19,7 +19,7 @@ use Swoole\Http\Request;
 use Swoole\Server;
 use Swoole\Websocket\Frame;
 
-class IndexController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
+class IndexController extends Controller implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
     public function onClose(Server $server, int $fd, int $reactorId): void
     {
@@ -33,6 +33,8 @@ class IndexController implements OnMessageInterface, OnOpenInterface, OnCloseInt
 
     public function onOpen(Server $server, Request $request): void
     {
-        // TODO: Implement onOpen() method.
+        $token = $this->request->input('token');
+
+        var_dump($token);
     }
 }
