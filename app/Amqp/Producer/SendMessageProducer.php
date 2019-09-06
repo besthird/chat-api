@@ -20,10 +20,10 @@ use Hyperf\Amqp\Message\ProducerMessage;
  */
 class SendMessageProducer extends ProducerMessage
 {
-    public function __construct(int $fd, array $data = [])
+    public function __construct(string $token, array $data = [])
     {
         $this->payload = [
-            'fd' => $fd,
+            'token' => $token,
             'data' => $data,
         ];
     }

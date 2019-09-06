@@ -38,18 +38,18 @@ class DebugCommand extends HyperfCommand
     public function configure()
     {
         $this->setDescription('Send Message to websocket client.');
-        $this->addArgument('fd', InputArgument::REQUIRED, '目标FD');
+        $this->addArgument('token', InputArgument::REQUIRED, '目标 TOKEN');
     }
 
     public function handle()
     {
-        $fd = $this->input->getArgument('fd');
+        $token = $this->input->getArgument('token');
 
         $data = [
             'protocal' => 'text',
             'data' => 'Hello World',
         ];
 
-        amqp_produce(new SendMessageProducer((int) $fd, $data));
+        amqp_produce(new SendMessageProducer($token, $data));
     }
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Amqp\Consumer;
 
 use App\Chat\Node;
+use App\Service\Redis\UserCollection;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Builder\QueueBuilder;
 use Hyperf\Amqp\Message\ConsumerMessage;
@@ -26,19 +27,23 @@ class SendMessageConsumer extends ConsumerMessage
 {
     /**
      * @param $data = [
-     *     'fd' => 1,
+     *     'token' => 'limx',
      *     'data' => [],
      * ]
      * @return string
      */
     public function consume($data): string
     {
-        $fd = $data['fd'];
+        $token = $data['token'];
         $data = $data['data'];
 
         $sender = di()->get(Sender::class);
 
-        $sender->push($fd, json_encode($data));
+        $obj = di()->get(UserCollection::class)->find($token);
+        $node = di()->get(Node::class)->getId();
+        if ($obj && $obj->node === $node) {
+            $sender->push($obj->fd, json_encode($data));
+        }
 
         return Result::ACK;
     }

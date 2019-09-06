@@ -22,6 +22,10 @@ namespace App\Model;
  */
 class User extends Model
 {
+    const ONLINE = 1;
+
+    const OFFLINE = 0;
+
     /**
      * The table associated with the model.
      *

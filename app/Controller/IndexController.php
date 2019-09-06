@@ -13,7 +13,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Chat\Handler\ErrorMessageHandler;
-use App\Model\User;
+use App\Chat\HandlerInterface;
+use App\Chat\Node;
+use App\Service\Dao\UserDao;
+use App\Service\Obj\UserObj;
+use App\Service\Redis\UserCollection;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
@@ -29,6 +33,12 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
      * @var ErrorMessageHandler
      */
     protected $errorMessageHandler;
+
+    /**
+     * @Inject
+     * @var UserDao
+     */
+    protected $dao;
 
     public function onClose(Server $server, int $fd, int $reactorId): void
     {
@@ -47,14 +57,16 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
             ]);
         }
 
-        var_dump($data);
+        /** @var HandlerInterface $handler */
+        $handler = $this->container->get($protocal);
+        $handler->handle($server, $fd, $data);
     }
 
     public function onOpen(Server $server, Request $request): void
     {
         $token = $this->request->input('token');
 
-        $user = User::query()->where('token', $token)->first();
+        $user = $this->dao->firstByToken($token);
         if (empty($user)) {
             $this->errorMessageHandler->handle($server, $request->fd, [
                 'message' => 'The Token is invalid.',
@@ -62,5 +74,9 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
             ]);
             return;
         }
+
+        $this->dao->online($token, $user);
+        $node = di()->get(Node::class)->getId();
+        di()->get(UserCollection::class)->save(new UserObj($token, $request->fd, $node));
     }
 }
