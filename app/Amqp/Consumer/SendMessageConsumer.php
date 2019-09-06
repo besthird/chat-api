@@ -12,13 +12,15 @@ declare(strict_types=1);
 
 namespace App\Amqp\Consumer;
 
+use App\Chat\Node;
 use Hyperf\Amqp\Annotation\Consumer;
+use Hyperf\Amqp\Builder\QueueBuilder;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
 use Hyperf\WebSocketServer\Sender;
 
 /**
- * @Consumer(exchange="chat", routingKey="send.message", queue="send.message", name="SendMessageConsumer", nums=1)
+ * @Consumer(exchange="chat", routingKey="send.message", name="SendMessageConsumer", nums=1)
  */
 class SendMessageConsumer extends ConsumerMessage
 {
@@ -39,5 +41,21 @@ class SendMessageConsumer extends ConsumerMessage
         $sender->push($fd, json_encode($data));
 
         return Result::ACK;
+    }
+
+    public function getQueue(): string
+    {
+        if (is_string($this->queue)) {
+            return $this->queue;
+        }
+
+        $node = di()->get(Node::class);
+
+        return $this->queue = 'send.message.' . $node->getId();
+    }
+
+    public function getQueueBuilder(): QueueBuilder
+    {
+        return (new QueueBuilder())->setQueue($this->getQueue())->setAutoDelete(true);
     }
 }
