@@ -37,4 +37,11 @@ class UserService extends Service
     {
         return $this->users[$fd] ?? null;
     }
+
+    public function delete(UserObj $obj)
+    {
+        unset($this->users[$obj->fd]);
+
+        $this->col->delete($obj->token);
+    }
 }

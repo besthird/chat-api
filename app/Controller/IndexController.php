@@ -15,6 +15,7 @@ namespace App\Controller;
 use App\Chat\Handler\ErrorMessageHandler;
 use App\Chat\HandlerInterface;
 use App\Chat\Node;
+use App\Model\User;
 use App\Service\Dao\UserDao;
 use App\Service\Obj\UserObj;
 use App\Service\UserService;
@@ -48,7 +49,14 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
 
     public function onClose(Server $server, int $fd, int $reactorId): void
     {
-        // TODO: Implement onClose() method.
+        if ($obj = $this->service->find($fd)) {
+            $this->service->delete($obj);
+
+            if ($user = $this->dao->firstByToken($obj->token)) {
+                $user->is_online = User::OFFLINE;
+                $user->save();
+            }
+        }
     }
 
     public function onMessage(Server $server, Frame $frame): void
