@@ -28,6 +28,7 @@ class ErrorMessageHandler implements HandlerInterface
     public function handle(Server $server, int $fd, $data)
     {
         $server->push($fd, json_encode($data));
+
         if ($data['close'] ?? false) {
             $server->close($fd);
         }
