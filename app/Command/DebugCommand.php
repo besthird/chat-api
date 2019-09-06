@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Amqp\Producer\SendMessageProducer;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * @Command
@@ -36,9 +38,18 @@ class DebugCommand extends HyperfCommand
     public function configure()
     {
         $this->setDescription('Send Message to websocket client.');
+        $this->addArgument('fd', InputArgument::REQUIRED, '目标FD');
     }
 
     public function handle()
     {
+        $fd = $this->input->getArgument('fd');
+
+        $data = [
+            'protocal' => 'text',
+            'data' => 'Hello World',
+        ];
+
+        amqp_produce(new SendMessageProducer((int) $fd, $data));
     }
 }
