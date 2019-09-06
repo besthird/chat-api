@@ -17,7 +17,7 @@ use App\Chat\HandlerInterface;
 use App\Chat\Node;
 use App\Service\Dao\UserDao;
 use App\Service\Obj\UserObj;
-use App\Service\Redis\UserCollection;
+use App\Service\UserService;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
@@ -40,6 +40,12 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
      */
     protected $dao;
 
+    /**
+     * @Inject
+     * @var UserService
+     */
+    protected $service;
+
     public function onClose(Server $server, int $fd, int $reactorId): void
     {
         // TODO: Implement onClose() method.
@@ -55,6 +61,7 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
             $this->errorMessageHandler->handle($server, $fd, [
                 'message' => 'The Protocal is invalid.',
             ]);
+            return;
         }
 
         /** @var HandlerInterface $handler */
@@ -77,6 +84,7 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
 
         $this->dao->online($token, $user);
         $node = di()->get(Node::class)->getId();
-        di()->get(UserCollection::class)->save(new UserObj($token, $request->fd, $node));
+
+        $this->service->save(new UserObj($token, $request->fd, $node));
     }
 }

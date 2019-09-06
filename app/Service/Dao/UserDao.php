@@ -28,6 +28,7 @@ class UserDao extends Service
 
     /**
      * 返回所有在线的用户.
+     * @return User[]
      */
     public function findOnline()
     {
