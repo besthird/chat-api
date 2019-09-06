@@ -20,3 +20,25 @@ Hyperf 是基于 `Swoole 4.3+` 实现的高性能、高灵活性的 PHP 持久�
 # 文档
 
 [https://doc.hyperf.io/](https://doc.hyperf.io/)
+
+# 使用
+
+## 连接
+
+```
+ws://127.0.0.1:9501/?token=xxx
+```
+
+## 协议
+
+查看所有用户列表
+
+```
+{"protocal":"user.list","data":"Hello World"}
+```
+
+向对方用户发送消息
+
+```
+{"protocal":"send.message","data":{"id":2,"message":"Hello World."}}
+```
