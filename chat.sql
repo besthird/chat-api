@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.27)
 # Database: chat
-# Generation Time: 2019-09-06 03:04:41 +0000
+# Generation Time: 2019-09-06 07:10:03 +0000
 # ************************************************************
 
 
@@ -30,12 +30,17 @@ CREATE TABLE `user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `token` varchar(32) NOT NULL DEFAULT '',
+  `is_online` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否在线',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_NAME` (`name`),
-  UNIQUE KEY `UNIQUE_TOKEN` (`token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `UNIQUE_TOKEN` (`token`),
+  KEY `INDEX_ONLINE` (`is_online`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+
+
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
