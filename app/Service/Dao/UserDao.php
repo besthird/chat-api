@@ -18,6 +18,15 @@ use App\Service\Service;
 class UserDao extends Service
 {
     /**
+     * @param $id
+     * @return null|User
+     */
+    public function first($id)
+    {
+        return User::findFromCache($id);
+    }
+
+    /**
      * @param string $token
      * @return User
      */
