@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Chat\Handler\ErrorMessageHandler;
+use App\Model\User;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
@@ -35,6 +37,13 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
     {
         $token = $this->request->input('token');
 
-        var_dump($token);
+        $user = User::query()->where('token', $token)->first();
+        if (empty($user)) {
+            di()->get(ErrorMessageHandler::class)->handle($server, $request->fd, [
+                'message' => 'The Token is invalid.',
+                'close' => true,
+            ]);
+            return;
+        }
     }
 }

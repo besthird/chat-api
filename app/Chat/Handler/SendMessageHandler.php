@@ -13,13 +13,11 @@ declare(strict_types=1);
 namespace App\Chat\Handler;
 
 use App\Chat\HandlerInterface;
-use Swoole\Server;
-use Swoole\WebSocket\Frame;
+use Swoole\WebSocket\Server;
 
 class SendMessageHandler implements HandlerInterface
 {
-    public function handle(Server $server, Frame $frame)
+    public function handle(Server $server, int $fd, $data)
     {
-        // TODO: Implement handle() method.
     }
 }

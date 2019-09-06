@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace App\Chat;
 
-use Swoole\Server;
-use Swoole\WebSocket\Frame;
+use Swoole\WebSocket\Server;
 
 interface HandlerInterface
 {
-    public function handle(Server $server, Frame $frame);
+    /**
+     * @param Server $server
+     * @param int $fd
+     * @param $data
+     */
+    public function handle(Server $server, int $fd, $data);
 }
