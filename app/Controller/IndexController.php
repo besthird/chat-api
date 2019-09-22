@@ -26,6 +26,7 @@ use Hyperf\Di\Annotation\Inject;
 use Swoole\Http\Request;
 use Swoole\Server;
 use Swoole\Websocket\Frame;
+use Swoole\WebSocket;
 
 class IndexController extends Controller implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
@@ -77,6 +78,9 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
         $handler->handle($server, $fd, $data);
     }
 
+    /**
+     * @param WebSocket\Server $server
+     */
     public function onOpen(Server $server, Request $request): void
     {
         $token = $this->request->input('token');
@@ -94,5 +98,15 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
         $node = di()->get(Node::class)->getId();
 
         $this->service->save(new UserObj($token, $request->fd, $node));
+
+        $user = $this->dao->findOnline()->toArray();
+
+        $result = [
+            'protocal'=> "user.list",
+            'list' => $user
+        ];
+
+        $server->push($request->fd, json_encode($result));
+
     }
 }
