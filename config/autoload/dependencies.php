@@ -14,9 +14,7 @@ use App\Chat\Handler\SendMessageHandler;
 use App\Chat\Handler\UserListHandler;
 
 return [
-    'dependencies' => [
-        Hyperf\Contract\StdoutLoggerInterface::class => App\Kernel\Log\LoggerFactory::class,
-        'protocal.send.message' => SendMessageHandler::class,
-        'protocal.user.list' => UserListHandler::class,
-    ],
+    Hyperf\Contract\StdoutLoggerInterface::class => App\Kernel\Log\LoggerFactory::class,
+    'protocal.send.message' => SendMessageHandler::class,
+    'protocal.user.list' => UserListHandler::class,
 ];

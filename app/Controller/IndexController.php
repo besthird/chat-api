@@ -25,8 +25,8 @@ use Hyperf\Contract\OnOpenInterface;
 use Hyperf\Di\Annotation\Inject;
 use Swoole\Http\Request;
 use Swoole\Server;
-use Swoole\Websocket\Frame;
 use Swoole\WebSocket;
+use Swoole\Websocket\Frame;
 
 class IndexController extends Controller implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
@@ -102,11 +102,10 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
         $user = $this->dao->findOnline()->toArray();
 
         $result = [
-            'protocal'=> "user.list",
-            'list' => $user
+            'protocal' => 'user.list',
+            'list' => $user,
         ];
 
         $server->push($request->fd, json_encode($result));
-
     }
 }
