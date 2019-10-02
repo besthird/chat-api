@@ -60,7 +60,7 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
         }
     }
 
-    public function onMessage(Server $server, Frame $frame): void
+    public function onMessage(WebSocket\Server $server, Frame $frame): void
     {
         $fd = $frame->fd;
         $data = json_decode($frame->data, true);
@@ -78,10 +78,7 @@ class IndexController extends Controller implements OnMessageInterface, OnOpenIn
         $handler->handle($server, $fd, $data);
     }
 
-    /**
-     * @param WebSocket\Server $server
-     */
-    public function onOpen(Server $server, Request $request): void
+    public function onOpen(WebSocket\Server $server, Request $request): void
     {
         $token = $this->request->input('token');
 
