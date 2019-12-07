@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @link     https://www.hyperf.io
  * @document https://doc.hyperf.io
  * @contact  group@hyperf.io
- * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
 use Hyperf\Amqp\Message\ProducerMessageInterface;
@@ -37,8 +37,6 @@ if (! function_exists('di')) {
 if (! function_exists('format_throwable')) {
     /**
      * Format a throwable to string.
-     * @param Throwable $throwable
-     * @return string
      */
     function format_throwable(Throwable $throwable): string
     {

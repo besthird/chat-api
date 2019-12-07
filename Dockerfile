@@ -5,7 +5,7 @@
 # @contact  group@hyperf.io
 # @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
 
-FROM hyperf/hyperf:7.2-alpine-cli
+FROM hyperf/hyperf:7.2-alpine-v3.9-cli
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
 
 ##
@@ -15,7 +15,6 @@ LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MI
 ARG timezone
 
 ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
-    COMPOSER_VERSION=1.8.6 \
     APP_ENV=prod
 
 # update
@@ -23,7 +22,7 @@ RUN set -ex \
     && apk update \
     # install composer
     && cd /tmp \
-    && wget https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
+    && wget https://mirrors.aliyun.com/composer/composer.phar \
     && chmod u+x composer.phar \
     && mv composer.phar /usr/local/bin/composer \
     # show php version and extensions
@@ -49,12 +48,10 @@ WORKDIR /opt/www
 
 # Composer Cache
 # COPY ./composer.* /opt/www/
-# RUN composer install --no-dev
+# RUN composer install --no-dev --no-scripts
 
 COPY . /opt/www
-RUN composer install --no-dev \
-    && composer dump-autoload -o \
-    && php /opt/www/bin/hyperf.php di:init-proxy
+RUN composer install --no-dev -o
 
 EXPOSE 9501
 

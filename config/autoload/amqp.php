@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @link     https://www.hyperf.io
  * @document https://doc.hyperf.io
  * @contact  group@hyperf.io
- * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
 return [
@@ -17,6 +17,9 @@ return [
         'user' => env('AMQP_USER', 'guest'),
         'password' => env('AMQP_PASSWORD', 'guest'),
         'vhost' => '/',
+        'concurrent' => [
+            'limit' => 2,
+        ],
         'pool' => [
             'min_connections' => 1,
             'max_connections' => 10,
