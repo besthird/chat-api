@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @link     https://www.hyperf.io
  * @document https://doc.hyperf.io
  * @contact  group@hyperf.io
- * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
 namespace App\Chat\Handler;
@@ -47,8 +47,6 @@ class SendMessageHandler implements HandlerInterface
     protected $errorHandler;
 
     /**
-     * @param Server $server
-     * @param int $fd
      * @param $data = [
      *     'protocal' => 'send.message',
      *     'data' => [

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @link     https://www.hyperf.io
  * @document https://doc.hyperf.io
  * @contact  group@hyperf.io
- * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
 namespace App\Chat\Handler;
@@ -18,8 +18,6 @@ use Swoole\WebSocket\Server;
 class ErrorMessageHandler implements HandlerInterface
 {
     /**
-     * @param Server $server
-     * @param int $fd
      * @param $data = [
      *     'message' => '错误信息',
      *     'close' => false, // 是否前置关闭客户端
