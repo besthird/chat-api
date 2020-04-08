@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Chat\Handler;
 
-use App\Amqp\Producer\SendMessageProducer;
 use App\Chat\Constants;
 use App\Chat\HandlerInterface;
 use App\Service\Dao\UserDao;
@@ -82,7 +81,6 @@ class SendMessageHandler implements HandlerInterface
                 'token' => $user->token,
                 'data' => $data,
             ]));
-            // amqp_produce(new SendMessageProducer($user->token, $data));
         }
     }
 }
