@@ -13,10 +13,13 @@ declare(strict_types=1);
 namespace App\Chat\Handler;
 
 use App\Amqp\Producer\SendMessageProducer;
+use App\Chat\Constants;
 use App\Chat\HandlerInterface;
 use App\Service\Dao\UserDao;
 use App\Service\UserService;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Nsq\Nsq;
+use Hyperf\Utils\Codec\Json;
 use Hyperf\WebSocketServer\Sender;
 use Swoole\WebSocket\Server;
 
@@ -39,6 +42,12 @@ class SendMessageHandler implements HandlerInterface
      * @var Sender
      */
     protected $sender;
+
+    /**
+     * @Inject
+     * @var Nsq
+     */
+    protected $nsq;
 
     /**
      * @Inject
@@ -69,7 +78,11 @@ class SendMessageHandler implements HandlerInterface
                 return;
             }
 
-            amqp_produce(new SendMessageProducer($user->token, $data));
+            $this->nsq->publish(Constants::SEND_MESSAGE, Json::encode([
+                'token' => $user->token,
+                'data' => $data,
+            ]));
+            // amqp_produce(new SendMessageProducer($user->token, $data));
         }
     }
 }

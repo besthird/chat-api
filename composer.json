@@ -36,6 +36,7 @@
         "hyperf/http-server": "1.1.*",
         "hyperf/logger": "1.1.*",
         "hyperf/model-cache": "1.1.*",
+        "hyperf/nsq": "1.1.*",
         "hyperf/pool": "1.1.*",
         "hyperf/process": "1.1.*",
         "hyperf/redis": "1.1.*",

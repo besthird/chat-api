@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Amqp\Producer\SendMessageProducer;
+use App\Chat\Constants;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;
+use Hyperf\Nsq\Nsq;
+use Hyperf\Utils\Codec\Json;
 use Psr\Container\ContainerInterface;
+use Swoole\Timer;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -50,6 +53,11 @@ class DebugCommand extends HyperfCommand
             'data' => 'Hello World',
         ];
 
-        amqp_produce(new SendMessageProducer($token, $data));
+        di()->get(Nsq::class)->publish(Constants::SEND_MESSAGE, Json::encode([
+            'token' => $token,
+            'data' => $data,
+        ]));
+
+        Timer::clearAll();
     }
 }
