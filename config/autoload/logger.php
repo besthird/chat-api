@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+use App\Kernel\Log;
 
 return [
     'default' => [
@@ -23,13 +24,13 @@ return [
             'class' => Monolog\Formatter\LineFormatter::class,
             'constructor' => [
                 'format' => null,
-                'dateFormat' => null,
+                'dateFormat' => 'Y-m-d H:i:s',
                 'allowInlineLineBreaks' => true,
             ],
         ],
         'processors' => [
             [
-                'class' => App\Kernel\Log\AppendRequestIdProcessor::class,
+                'class' => Log\AppendRequestIdProcessor::class,
             ],
         ],
     ],

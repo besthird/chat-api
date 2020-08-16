@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-
 namespace App\Exception\Handler;
 
 use App\Constants\ErrorCode;
@@ -17,6 +16,7 @@ use App\Exception\BusinessException;
 use App\Kernel\Http\Response;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler;
+use Hyperf\HttpMessage\Exception\HttpException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -47,6 +47,10 @@ class BusinessExceptionHandler extends ExceptionHandler
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
+        if ($throwable instanceof HttpException) {
+            return $this->response->handleException($throwable);
+        }
+
         if ($throwable instanceof BusinessException) {
             $this->logger->warning(format_throwable($throwable));
 

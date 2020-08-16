@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-
 error_reporting(E_ALL);
 date_default_timezone_set('Asia/Shanghai');
 
@@ -19,6 +18,8 @@ date_default_timezone_set('Asia/Shanghai');
 Swoole\Runtime::enableCoroutine(true);
 
 require BASE_PATH . '/vendor/autoload.php';
+
+Hyperf\Di\ClassLoader::init();
 
 $container = require BASE_PATH . '/config/container.php';
 
