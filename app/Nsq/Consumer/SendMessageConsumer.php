@@ -33,7 +33,7 @@ class SendMessageConsumer extends AbstractConsumer
 
         $node = $container->get(Node::class);
 
-        $this->channel = Constants::SEND_MESSAGE . '.' . $node->getId();
+        $this->channel = $node->getChannel();
     }
 
     public function consume(Message $payload): ?string
