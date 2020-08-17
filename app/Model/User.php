@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-
 namespace App\Model;
 
 /**
@@ -32,13 +31,6 @@ class User extends Model
      * @var string
      */
     protected $table = 'user';
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'default';
 
     /**
      * The attributes that are mass assignable.
